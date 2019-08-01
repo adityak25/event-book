@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './Auth.css';
+import AuthContext from './../context/auth-context';
 
 class AuthPage extends Component {
   state = {
     isLogin: true
   };
+
+  static contextType = AuthContext;
 
   constructor(props) {
     super(props);
@@ -66,7 +69,12 @@ class AuthPage extends Component {
         return res.json();
       })
       .then(resBody => {
-        console.log(resBody);
+        if (resBody.data.login.token) {
+          this.context.login(
+            resBody.data.login.token,
+            resBody.data.login.userId
+          );
+        }
       })
       .catch(err => {
         throw err;
@@ -75,18 +83,18 @@ class AuthPage extends Component {
 
   render() {
     return (
-      <form className="auth-form" onSubmit={this.submitHandler}>
-        <div className="form-control">
-          <label htmlFor="email">E-Mail</label>
-          <input type="email" id="email" ref={this.emailEl} />
+      <form className='auth-form' onSubmit={this.submitHandler}>
+        <div className='form-control'>
+          <label htmlFor='email'>E-Mail</label>
+          <input type='email' id='email' ref={this.emailEl} />
         </div>
-        <div className="form-control">
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" ref={this.passwordEl} />
+        <div className='form-control'>
+          <label htmlFor='password'>Password</label>
+          <input type='password' id='password' ref={this.passwordEl} />
         </div>
-        <div className="form-actions">
-          <button type="submit">Submit</button>
-          <button type="button" onClick={this.switchModeHandler}>
+        <div className='form-actions'>
+          <button type='submit'>Submit</button>
+          <button type='button' onClick={this.switchModeHandler}>
             Switch to {this.state.isLogin ? 'SignUp' : 'Login'}
           </button>
         </div>
