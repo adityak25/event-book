@@ -1,5 +1,5 @@
 import React from 'react';
-import history from './../../history';
+import history from './../history';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -16,7 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AuthContext from './../../context/auth-context';
+import AuthContext from './../context/auth-context';
 
 const drawerWidth = 240;
 
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   }
 }));
-function MainNavigation(props) {
+function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -185,4 +185,4 @@ function MainNavigation(props) {
   );
 }
 
-export default MainNavigation;
+export default ResponsiveDrawer;

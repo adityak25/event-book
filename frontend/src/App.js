@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import history from './history';
 import './App.css';
 
 import AuthPage from './pages/Auth';
 import EventsPage from './pages/Events';
 import BookingsPage from './pages/Bookings';
-import MainNavigation from './components/Navigation/MainNavigation';
 
 import AuthContext from './context/auth-context';
+import MainNavigation from './components/Navigation/MainNavigation';
 
 class App extends Component {
   state = {
@@ -31,7 +32,7 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <BrowserRouter>
+        <Router history={history}>
           <React.Fragment>
             <AuthContext.Provider
               value={{
@@ -59,7 +60,7 @@ class App extends Component {
               </main>
             </AuthContext.Provider>
           </React.Fragment>
-        </BrowserRouter>
+        </Router>
       </div>
     );
   }
