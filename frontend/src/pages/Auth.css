@@ -1,5 +1,19 @@
-.auth-form {
-  width: 25rem;
-  max-width: 80%;
-  margin: 5rem auto;
+.login-form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.login-form__logo {
+  margin: 1px;
+  background-color: #ec246a !important;
+}
+.login-form__fields {
+  width: 100%;
+  margin-top: 1;
+}
+.login-form__actions {
+  margin: 10px 0.5px;
+  display: flex;
+  justify-content: space-evenly;
 }

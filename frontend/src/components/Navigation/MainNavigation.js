@@ -51,6 +51,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   }
 }));
+
 function MainNavigation(props) {
   const classes = useStyles();
   const theme = useTheme();
@@ -149,7 +150,7 @@ function MainNavigation(props) {
             className={classes.menuButton}>
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
+          <Typography variant='h5' align='center' noWrap>
             Event Book
           </Typography>
         </Toolbar>

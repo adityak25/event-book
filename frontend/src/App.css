@@ -1,3 +1,9 @@
+.main-root {
+  display: flex;
+  justify-content: center;
+}
+
 .main-content {
-  margin: 8rem 2.5rem;
+  margin: 5rem 2.5rem;
+  align-items: center;
 }
