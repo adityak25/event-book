@@ -1,5 +1,8 @@
 .events-control {
-  display: grid;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 3px 0px 6px 0px;
 }
 
 .card {
