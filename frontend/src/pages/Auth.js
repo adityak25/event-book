@@ -4,7 +4,6 @@ import AuthContext from './../context/auth-context';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -105,7 +104,6 @@ class AuthPage extends Component {
   render() {
     return (
       <Container component='main' maxWidth='xs'>
-        <CssBaseline />
         <div className='login-form'>
           <Avatar className='login-form__logo'>
             <LockOutlinedIcon />

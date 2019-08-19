@@ -1,63 +1,73 @@
 import React, { Component } from 'react';
+import Divider from '@material-ui/core/Divider';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
 
 import AuthContext from '../context/auth-context';
 import './Events.css';
+import AddEvent from '../components/AddEvent/AddEvent';
+
+const smallScreen = window.innerWidth < 600;
+
+const styles = muiBaseTheme => ({
+  list: {
+    display: 'flex',
+    flexFlow: 'wrap',
+    justifyContent: smallScreen ? 'center' : 'baseline'
+  },
+  card: {
+    maxWidth: 300,
+    margin: '0.5rem',
+    transition: '0.3s',
+    boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
+    '&:hover': {
+      boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)'
+    }
+  },
+  media: {
+    paddingTop: '56.25%'
+  },
+  content: {
+    textAlign: 'left',
+    padding: muiBaseTheme.spacing(3)
+  },
+  divider: {
+    margin: '0.5rem !important'
+  }
+});
 
 class EventsPage extends Component {
-  state = {
-    creating: false,
-    events: [],
-    isLoading: false,
-    selectedEvent: null,
-    open: false
-  };
-
   isActive = true;
-  fullScreen = window.innerWidth < 600;
 
   static contextType = AuthContext;
 
   constructor(props) {
     super(props);
-    this.titleElRef = React.createRef();
-    this.priceElRef = React.createRef();
-    this.dateElRef = React.createRef();
-    this.descriptionElRef = React.createRef();
+    this.state = {
+      creating: false,
+      events: [],
+      isLoading: false,
+      selectedEvent: null
+    };
   }
 
   componentDidMount() {
     this.fetchEvents();
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
   startCreateEventHandler = () => {
     this.setState({ creating: true });
   };
 
-  modalConfirmHandler = () => {
+  createEventConfirmHandler = newEventData => {
     this.setState({ creating: false });
-    const title = this.titleElRef.current.value;
-    const price = +this.priceElRef.current.value;
-    const date = this.dateElRef.current.value;
-    const description = this.descriptionElRef.current.value;
+    const title = newEventData.title;
+    const price = +newEventData.price;
+    const date = newEventData.date.toISOString();
+    const description = newEventData.description;
 
     if (
       title.trim().length === 0 ||
@@ -233,46 +243,57 @@ class EventsPage extends Component {
   componentWillUnmount() {
     this.isActive = false;
   }
+
   render() {
+    const { classes } = this.props;
+    const eventCard = (
+      <Card className={classes.card}>
+        <CardMedia
+          className={classes.media}
+          image={
+            'https://image.freepik.com/free-photo/friends-having-fun-falling-confetti_23-2147651884.jpg'
+          }
+        />
+        <CardContent className={classes.content}>
+          <Typography variant={'h6'} gutterBottom>
+            Bruno Mars Concert @Sacramento
+          </Typography>
+          <Typography variant={'caption'}>
+            Since he burst onto the scene in 2010, Bruno Mars has been one of
+            the most lauded pop stars the world over. With the release of his
+            first two singles, “Just the Way You Are” and “Grenade,” in 2010,
+            Mars and his powerful vocals quickly became an international hit.
+          </Typography>
+          <Divider className={classes.divider} light />
+        </CardContent>
+      </Card>
+    );
+    const listOfEventCards = [
+      eventCard,
+      eventCard,
+      eventCard,
+      eventCard,
+      eventCard,
+      eventCard
+    ];
     return (
       <React.Fragment>
-        <Paper className='events-control'>
-          <Typography variant='h6' component='h3'>
-            Share your own events!
-          </Typography>
-          <Tooltip title='Add Event' aria-label='add'>
-            <Fab color='primary' onClick={this.handleClickOpen}>
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Paper>
-        <Dialog
-          fullScreen={this.fullScreen}
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby='responsive-dialog-title'>
-          <DialogTitle id='responsive-dialog-title'>
-            {'Event Details'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              {
-                'Event Name : Some Festival Description : Festival Description Date : 8/15/2019 Price : $19.99 Location : San Francisco'
-              }
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color='primary'>
-              Disagree
-            </Button>
-            <Button onClick={this.handleClose} color='primary' autoFocus>
-              Agree
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {this.context.token && (
+          <React.Fragment>
+            <AddEvent
+              createEventConfirmHandler={this.createEventConfirmHandler}
+            />
+            {/* <Divider className={classes.divider} /> */}
+          </React.Fragment>
+        )}
+        <div className={classes.list}>
+          {listOfEventCards.map(card => {
+            return card;
+          })}
+        </div>
       </React.Fragment>
     );
   }
 }
 
-export default EventsPage;
+export default withStyles(styles)(EventsPage);

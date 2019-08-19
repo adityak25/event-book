@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import history from './history';
 import './App.css';
 
@@ -34,6 +35,7 @@ class App extends Component {
       <div className='App'>
         <Router history={history}>
           <React.Fragment>
+            <CssBaseline />
             <AuthContext.Provider
               value={{
                 token: this.state.token,
