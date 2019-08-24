@@ -11,6 +11,7 @@ import {
   KeyboardDatePicker
 } from '@material-ui/pickers';
 import './Modal.css';
+import isSmallScreen from '../../screenSize';
 
 class Modal extends Component {
   constructor(props) {
@@ -18,14 +19,12 @@ class Modal extends Component {
     if (props.modalInfo.type === 'newEventForm') {
       this.state = {
         title: '',
-        price: 0,
+        price: '',
         date: new Date(),
         description: ''
       };
     }
   }
-
-  fullScreen = window.innerWidth < 600;
 
   showCreateEventForm = () => {
     return (
@@ -43,7 +42,7 @@ class Modal extends Component {
             this.handleFormValueChange('title', event.target.value)
           }
         />
-        <div className={!this.fullScreen ? 'modal-items__row' : null}>
+        <div className={!isSmallScreen() ? 'modal-items__row' : null}>
           <TextField
             margin='normal'
             variant='outlined'
@@ -107,20 +106,35 @@ class Modal extends Component {
   render() {
     return (
       <Dialog
-        fullScreen={this.fullScreen}
+        fullScreen={isSmallScreen()}
         open={this.props.open}
         disableBackdropClick
         onClose={this.props.handleClose}
-        aria-labelledby='responsive-dialog-title'>
+        aria-labelledby='responsive-dialog-title'
+      >
         <DialogTitle id='responsive-dialog-title'>
           {this.props.modalInfo.title}
         </DialogTitle>
         <DialogContent>{this.showCreateEventForm()}</DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleClose} color='primary'>
+          <Button
+            onClick={this.props.handleClose}
+            color='primary'
+            variant='contained'
+          >
             Cancel
           </Button>
-          <Button onClick={this.submitCreateEvent} color='primary' autoFocus>
+          <Button
+            onClick={this.submitCreateEvent}
+            color='primary'
+            variant='contained'
+            autoFocus
+            disabled={
+              this.state.title === '' ||
+              this.state.description === '' ||
+              this.state.price === ''
+            }
+          >
             Submit
           </Button>
         </DialogActions>

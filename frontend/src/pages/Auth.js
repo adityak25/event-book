@@ -109,12 +109,13 @@ class AuthPage extends Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Login
+            {this.state.isLogin ? 'Login' : 'SignUp'}
           </Typography>
           <form
             className='login-form__fields'
             noValidate
-            onSubmit={this.submitHandler}>
+            onSubmit={this.submitHandler}
+          >
             <TextField
               variant='outlined'
               margin='normal'
@@ -147,8 +148,9 @@ class AuthPage extends Component {
               <Button
                 variant='contained'
                 color='primary'
-                onClick={this.switchModeHandler}>
-                Register
+                onClick={this.switchModeHandler}
+              >
+                Switch to {this.state.isLogin ? 'SignUp' : 'Login'}
               </Button>
             </div>
           </form>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -9,17 +10,16 @@ import { withStyles } from '@material-ui/core/styles';
 import AuthContext from '../context/auth-context';
 import './Events.css';
 import AddEvent from '../components/AddEvent/AddEvent';
-
-const smallScreen = window.innerWidth < 600;
+import isSmallScreen from '../screenSize';
 
 const styles = muiBaseTheme => ({
-  list: {
+  eventCardList: {
     display: 'flex',
     flexFlow: 'wrap',
-    justifyContent: smallScreen ? 'center' : 'baseline'
+    justifyContent: isSmallScreen() ? 'center' : 'baseline'
   },
-  card: {
-    maxWidth: 300,
+  eventCard: {
+    width: 300,
     margin: '0.5rem',
     transition: '0.3s',
     boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
@@ -27,12 +27,23 @@ const styles = muiBaseTheme => ({
       boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)'
     }
   },
-  media: {
+  eventCardMedia: {
     paddingTop: '56.25%'
   },
-  content: {
+  eventCardContent: {
     textAlign: 'left',
     padding: muiBaseTheme.spacing(3)
+  },
+  eventCardDescription: {
+    display: '-webkit-box',
+    '-webkitLineClamp': '1',
+    '-webkitBoxOrient': 'vertical',
+    overflow: 'hidden'
+  },
+  eventCardFooter: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'baseline'
   },
   divider: {
     margin: '0.5rem !important'
@@ -246,36 +257,6 @@ class EventsPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const eventCard = (
-      <Card className={classes.card}>
-        <CardMedia
-          className={classes.media}
-          image={
-            'https://image.freepik.com/free-photo/friends-having-fun-falling-confetti_23-2147651884.jpg'
-          }
-        />
-        <CardContent className={classes.content}>
-          <Typography variant={'h6'} gutterBottom>
-            Bruno Mars Concert @Sacramento
-          </Typography>
-          <Typography variant={'caption'}>
-            Since he burst onto the scene in 2010, Bruno Mars has been one of
-            the most lauded pop stars the world over. With the release of his
-            first two singles, “Just the Way You Are” and “Grenade,” in 2010,
-            Mars and his powerful vocals quickly became an international hit.
-          </Typography>
-          <Divider className={classes.divider} light />
-        </CardContent>
-      </Card>
-    );
-    const listOfEventCards = [
-      eventCard,
-      eventCard,
-      eventCard,
-      eventCard,
-      eventCard,
-      eventCard
-    ];
     return (
       <React.Fragment>
         {this.context.token && (
@@ -286,9 +267,40 @@ class EventsPage extends Component {
             {/* <Divider className={classes.divider} /> */}
           </React.Fragment>
         )}
-        <div className={classes.list}>
-          {listOfEventCards.map(card => {
-            return card;
+        <div className={classes.eventCardList}>
+          {this.state.events.map(cardData => {
+            const eventCard = (
+              <Card className={classes.eventCard}>
+                <CardMedia
+                  className={classes.eventCardMedia}
+                  image={
+                    'https://image.freepik.com/free-photo/friends-having-fun-falling-confetti_23-2147651884.jpg'
+                  }
+                />
+                <CardContent className={classes.eventCardContent}>
+                  <Typography variant={'h6'} gutterBottom>
+                    {cardData.title}
+                  </Typography>
+                  <Typography
+                    variant={'caption'}
+                    className={classes.eventCardDescription}
+                  >
+                    {cardData.description}
+                  </Typography>
+                  <Divider className={classes.divider} light />
+                  <div className={classes.eventCardFooter}>
+                    <Typography variant={'caption'}>
+                      ${cardData.price}
+                    </Typography>
+                    <Typography variant={'caption'}>
+                      {new Date(cardData.date).toDateString()}
+                    </Typography>
+                    <Button variant='contained'>More</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+            return eventCard;
           })}
         </div>
       </React.Fragment>
