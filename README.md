@@ -13,4 +13,6 @@ A full stack web application built using React, GraphQL, Experss.js and MongoDB.
 
 - `git clone` or download this repo
 - `npm install` at the root of project folder
-- `npm start` to run the project on `localhost:3000`. 
+- `cd frontend` and `npm install` again
+- `npm start` from root of both server and frontend folders
+- `localhost:3000` serves the application 
